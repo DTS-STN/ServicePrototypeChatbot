@@ -1,23 +1,24 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useEffect } from "react";
+import Header from "./Components/Header";
+import Body from "./Components/Body";
+import "./styles/main.scss";
 
 function App() {
+  const messageListener = (event) => {
+    // if (event.data) {
+    console.log(event);
+    // }
+  };
+  useEffect(() => {
+    window.postMessage("ready");
+    window.addEventListener("message", messageListener);
+
+    return window.removeEventListener("message", messageListener);
+  }, []);
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className="app">
+      <Header />
+      <Body />
     </div>
   );
 }

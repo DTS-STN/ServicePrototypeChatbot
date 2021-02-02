@@ -1,0 +1,14 @@
+@mixin focus-color {
+	outline: 1px solid red;
+}
+
+@mixin focus-outset($color) {
+	outline-width: 1px !important;
+	outline-style: solid !important;
+	outline-color: $color !important;
+	outline-offset: 2px !important;
+	-webkit-box-shadow: none !important;
+	box-shadow: none !important;
+	transition: none !important;
+	z-index: 1;
+}

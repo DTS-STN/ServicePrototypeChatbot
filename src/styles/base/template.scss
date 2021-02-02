@@ -1,0 +1,76 @@
+/*
+ * Contains default styles for the site
+ */
+@import "./color.scss";
+@import "./variables.scss";
+
+html,
+body {
+  height: 100%;
+  max-width: 100%;
+  margin: 0;
+  padding: 0;
+  font-family: $global-font;
+  font-size: $base-font-size;
+
+  h1,
+  h2,
+  h3 {
+    font-family: $title-font;
+  }
+
+  .relative-enter-done {
+    position: relative;
+  }
+
+  #root {
+    height: 100%;
+  }
+
+  select,
+  button,
+  input {
+    font: inherit;
+  }
+
+  fieldset {
+    border: none;
+    margin-inline-start: 0;
+    margin-inline-end: 0;
+    padding-block-start: 0;
+    padding-block-end: 0;
+    padding-inline-start: 0;
+    padding-inline-end: 0;
+  }
+
+  // App Style
+  .app {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    &__main {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+    }
+  }
+
+  // for screen-reader content that is focusable, like a "skip to X" link
+  .sr-only-focusable {
+    &:active,
+    &:focus {
+      width: auto;
+      height: auto;
+      margin: 0;
+      overflow: visible;
+      clip: auto;
+    }
+  }
+  /* Padding for main id anchor for Skip to Main Content to not be covered by fixed header */
+  .main-anchor {
+    display: block;
+    position: relative;
+    top: -80px;
+    visibility: hidden;
+  }
+}

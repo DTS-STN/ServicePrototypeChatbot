@@ -1,0 +1,27 @@
+@import "./color.scss";
+@import "./variables.scss";
+
+@mixin body-text {
+  font-size: 1.067rem;
+}
+
+%body-text {
+  @include body-text;
+}
+
+@mixin small-text {
+  font-size: 0.933rem;
+}
+
+%small-text {
+  @include small-text;
+}
+
+@mixin text-link {
+  font-weight: 400;
+  font-size: 1.067rem;
+}
+
+%text-link {
+  @include text-link;
+}

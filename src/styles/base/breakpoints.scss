@@ -1,0 +1,15 @@
+
+// values
+$media-m-value: 580;
+$media-t-value: 902;
+$media-d-value: 1024;
+
+// min breakpoints
+$media-m-min: $media-m-value + px;
+$media-t-min: $media-t-value + px;
+$media-d-min: $media-d-value + px;
+
+// max breakpoints
+$media-m-max: ($media-m-value - 1) + px;
+$media-t-max: ($media-t-value - 1) + px;
+$media-d-max: ($media-d-value - 1) + px;

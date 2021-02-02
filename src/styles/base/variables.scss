@@ -1,0 +1,29 @@
+@font-face {
+	font-family: 'Noto Sans', sans-serif;
+	font-display: swap;
+	src: url('../../assets/fonts/NotoSans-Regular.ttf');
+}
+
+@font-face {
+	font-family: Lato;
+	font-display: swap;
+	src: url('../../assets/fonts/Lato-Regular.ttf');
+}
+
+/* GLOBAL------------------------------------------------------------------------------------------ */
+$global-font: 'Noto Sans', sans-serif;
+$title-font: 'Lato';
+
+$global-font-weight-light: 200;
+$global-font-weight-book: 300;
+$global-font-weight-regular: 400;
+$global-font-weight-medium: 500;
+$global-font-weight-demibold: 600;
+$global-font-weight-bold: 700;
+$global-font-weight-black: 800;
+
+/* ------------------------------------------------------------------------------------------------- */
+
+/* BASE--------------------------------------------------------------------------------------------- */
+$base-font-size: 14px;
+$base-font-weight: $global-font-weight-regular;
