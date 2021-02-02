@@ -10,18 +10,16 @@
   &__textContainer {
     p {
       margin-block-start: 0;
-      margin-block-end: 0;
+      margin-block-end: 5px;
     }
   }
   &__inputContainer {
     position: relative;
-    flex: 1;
 
     textarea {
+      padding: 15px;
+      box-sizing: border-box;
       width: 100%;
-      // padding-left: 15px;
-      // padding-top: 15px;
-      // padding-bottom: 15px;
     }
     &__arrow {
       position: absolute;
