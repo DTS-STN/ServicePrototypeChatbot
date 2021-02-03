@@ -34,17 +34,17 @@ function Body() {
   React.useEffect(() => {
     async function fetchData() {
       try {
-      const casesData = await fetch("http://localhost:4000/cases", {
-        method: "get",
-        headers: {
-          "Content-Type": "application/json",
-          Accept: "application/json",
-        },
-      });
-      const casesJSON = await casesData.json();
-      console.log(casesJSON);
+        const casesData = await fetch("http://localhost:4000/cases", {
+          method: "get",
+          headers: {
+            "Content-Type": "application/json",
+            Accept: "application/json",
+          },
+        });
+        const casesJSON = await casesData.json();
+        console.log(casesJSON);
 
-      setCases(casesJSON);
+        setCases(casesJSON);
       } catch (e) {
         console.log("http://localhost:4000/cases has no cases");
       }
@@ -70,9 +70,13 @@ function Body() {
             {messages.map((message, index) => (
               <p key={`${index}${index}`}>{message}</p>
             ))}
-            {cases && cases.map((c, index) => (
-              <div key={`${index}${index}`}>{`${c.referenceNumber} ${c.status}`}</div>
-            ))}
+            {cases &&
+              cases.map((c, index) => (
+                <p style={{ textAlign: "right" }} key={`${index}${index}`}>
+                  {`#${c.referenceNumber}`}{" "}
+                  <span style={{ fontWeight: "bold" }}>{c.status}</span>
+                </p>
+              ))}
           </>
         )}
       </div>
