@@ -6,9 +6,18 @@ function Body() {
   const [text, setText] = React.useState("");
   const [messages, setMessages] = React.useState([]);
   const [data, setData] = React.useState(undefined);
-  const [cases, setCases] = React.useState([]);
+  const [cases, setCases] = React.useState(undefined);
   const onInput = (e) => {
+    console.log(e);
     setText(e.target.value);
+  };
+
+  const onKeyDown = (e) => {
+    if (e.code === "Enter" && !e.shiftKey) {
+      e.preventDefault();
+
+      send();
+    }
   };
 
   const send = () => {
@@ -34,17 +43,20 @@ function Body() {
   React.useEffect(() => {
     async function fetchData() {
       try {
-        const casesData = await fetch("http://localhost:4000/cases", {
-          method: "get",
-          headers: {
-            "Content-Type": "application/json",
-            Accept: "application/json",
-          },
-        });
+        const casesData = await fetch(
+          "https://api.us-east.apiconnect.appdomain.cloud/hmakhijadeloitteca-api/dev/hfp-client-apis/v1/casedetails",
+          {
+            method: "get",
+            headers: {
+              "Content-Type": "application/json",
+              Accept: "application/json",
+            },
+          }
+        );
         const casesJSON = await casesData.json();
         console.log(casesJSON);
 
-        setCases(casesJSON);
+        setCases(casesJSON.cases);
       } catch (e) {
         console.log("http://localhost:4000/cases has no cases");
       }
@@ -70,13 +82,16 @@ function Body() {
             {messages.map((message, index) => (
               <p key={`${index}${index}`}>{message}</p>
             ))}
-            {cases &&
+            {cases.length > 0 &&
               cases.map((c, index) => (
                 <p style={{ textAlign: "right" }} key={`${index}${index}`}>
                   {`#${c.referenceNumber}`}{" "}
                   <span style={{ fontWeight: "bold" }}>{c.status}</span>
                 </p>
               ))}
+            {cases.length === 0 && (
+              <p style={{ textAlign: "right" }}>No Cases found</p>
+            )}
           </>
         )}
       </div>
@@ -90,6 +105,7 @@ function Body() {
           rows={4}
           value={text}
           maxLength={250}
+          onKeyDown={onKeyDown}
         />
         <button className="body__inputContainer__arrow" onClick={send}>
           <Arrow />
