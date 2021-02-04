@@ -82,15 +82,19 @@ function Body() {
             {messages.map((message, index) => (
               <p key={`${index}${index}`}>{message}</p>
             ))}
-            {cases.length > 0 &&
-              cases.map((c, index) => (
-                <p style={{ textAlign: "right" }} key={`${index}${index}`}>
-                  {`#${c.referenceNumber}`}{" "}
-                  <span style={{ fontWeight: "bold" }}>{c.status}</span>
-                </p>
-              ))}
-            {cases.length === 0 && (
-              <p style={{ textAlign: "right" }}>No Cases found</p>
+            {cases && (
+              <>
+                {cases.length > 0 &&
+                  cases.map((c, index) => (
+                    <p style={{ textAlign: "right" }} key={`${index}${index}`}>
+                      {`#${c.referenceNumber}`}{" "}
+                      <span style={{ fontWeight: "bold" }}>{c.status}</span>
+                    </p>
+                  ))}
+                {cases.length === 0 && (
+                  <p style={{ textAlign: "right" }}>No Cases found</p>
+                )}
+              </>
             )}
           </>
         )}
