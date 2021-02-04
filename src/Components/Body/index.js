@@ -50,6 +50,8 @@ function Body() {
             headers: {
               "Content-Type": "application/json",
               Accept: "application/json",
+              Authorization: "bearer " + data.jwt,
+              guid: data.guid,
             },
           }
         );
