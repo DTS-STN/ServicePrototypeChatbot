@@ -8,7 +8,6 @@ function Body() {
   const [data, setData] = React.useState(undefined);
   const [cases, setCases] = React.useState(undefined);
   const onInput = (e) => {
-    console.log(e);
     setText(e.target.value);
   };
 
@@ -31,6 +30,10 @@ function Body() {
     setMessages(currentMessages);
   };
 
+  const addCasesToChat = () => {
+    
+  }
+
   const messageListener = (event) => {
     console.log("chatbot", event);
 
@@ -40,6 +43,7 @@ function Body() {
       }
     }
   };
+
   React.useEffect(() => {
     async function fetchData() {
       try {
@@ -89,7 +93,7 @@ function Body() {
                 {cases.length > 0 &&
                   cases.map((c, index) => (
                     <p style={{ textAlign: "right" }} key={`${index}${index}`}>
-                      {`#${c.referenceNumber}`}{" "}
+                      {`#${c.reference}`}{" "}
                       <span style={{ fontWeight: "bold" }}>{c.status}</span>
                     </p>
                   ))}
