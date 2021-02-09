@@ -21,13 +21,14 @@ function Body() {
 
   const send = () => {
     if (text === "cases") {
+      setCases(undefined);
       window.top.postMessage("ready", "*");
     }
     const currentMessages = messages;
 
     currentMessages.push(text);
     setText("");
-    setMessages(currentMessages);
+    setMessages([...currentMessages]);
   };
 
   // const addCasesToChat = (cases) => {
@@ -110,13 +111,23 @@ function Body() {
             ))}
             {cases && (
               <>
-                {cases.length > 0 &&
-                  cases.map((c, index) => (
-                    <p style={{ textAlign: "right" }} key={`${index}${index}`}>
-                      {`#${c.reference}`}{" "}
-                      <span style={{ fontWeight: "bold" }}>{c.status}</span>
-                    </p>
-                  ))}
+                {cases.length > 0 && (
+                  <>
+                    {cases.map((c, index) => (
+                      <p
+                        style={{ textAlign: "right" }}
+                        key={`${index}${index}`}
+                      >
+                        {`Case #${c.reference}`}
+                        {" is currently "}
+                        <span style={{ fontWeight: "bold" }}>{c.status}</span>
+                      </p>
+                    ))}
+                    {/* <p style={{ textAlign: "right" }}>
+                      Would you like to know more?
+                    </p> */}
+                  </>
+                )}
                 {cases.length === 0 && (
                   <p style={{ textAlign: "right" }}>No Cases found</p>
                 )}
