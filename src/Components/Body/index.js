@@ -30,9 +30,17 @@ function Body() {
     setMessages(currentMessages);
   };
 
-  const addCasesToChat = () => {
-    
-  }
+  const addCasesToChat = (cases) => {
+    if (cases.length > 0) {
+      const currentMessages = messages;
+
+      cases.forEach((c) => {
+        currentMessages.push(`#${c.reference} ${c.status}`);
+      });
+
+      setMessages(currentMessages);
+    }
+  };
 
   const messageListener = (event) => {
     console.log("chatbot", event);
@@ -63,6 +71,7 @@ function Body() {
         console.log(casesJSON);
 
         setCases(casesJSON.cases);
+        addCasesToChat(casesJSON.cases);
       } catch (e) {
         console.log("http://localhost:4000/cases has no cases");
       }
@@ -90,13 +99,13 @@ function Body() {
             ))}
             {cases && (
               <>
-                {cases.length > 0 &&
+                {/* {cases.length > 0 &&
                   cases.map((c, index) => (
                     <p style={{ textAlign: "right" }} key={`${index}${index}`}>
                       {`#${c.reference}`}{" "}
                       <span style={{ fontWeight: "bold" }}>{c.status}</span>
                     </p>
-                  ))}
+                  ))} */}
                 {cases.length === 0 && (
                   <p style={{ textAlign: "right" }}>No Cases found</p>
                 )}
