@@ -83,6 +83,7 @@ function Body() {
     }
 
     return () => window.removeEventListener("message", messageListener);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [data]);
   return (
     <main className="body">
