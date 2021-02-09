@@ -39,12 +39,11 @@ function Body() {
       });
 
       setMessages(currentMessages);
+      
     }
   };
 
   const messageListener = (event) => {
-    console.log("chatbot", event);
-
     if (event.data) {
       if (event.data.guid && event.data.jwt) {
         setData(event.data);
@@ -100,13 +99,13 @@ function Body() {
             ))}
             {cases && (
               <>
-                {/* {cases.length > 0 &&
+                {cases.length > 0 &&
                   cases.map((c, index) => (
                     <p style={{ textAlign: "right" }} key={`${index}${index}`}>
                       {`#${c.reference}`}{" "}
                       <span style={{ fontWeight: "bold" }}>{c.status}</span>
                     </p>
-                  ))} */}
+                  ))}
                 {cases.length === 0 && (
                   <p style={{ textAlign: "right" }}>No Cases found</p>
                 )}
