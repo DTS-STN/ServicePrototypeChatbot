@@ -30,18 +30,15 @@ function Body() {
     setMessages(currentMessages);
   };
 
-  const addCasesToChat = (cases) => {
-    if (cases.length > 0) {
-      const currentMessages = messages;
-
-      cases.forEach((c) => {
-        currentMessages.push(`#${c.reference} ${c.status}`);
-      });
-
-      setMessages(currentMessages);
-      
-    }
-  };
+  // const addCasesToChat = (cases) => {
+  //   if (cases.length > 0) {
+  //     const currentMessages = messages;
+  //     cases.forEach((c) => {
+  //       currentMessages.push(`#${c.reference} ${c.status}`);
+  //     });
+  //     setMessages(currentMessages);
+  //   }
+  // };
 
   const messageListener = (event) => {
     if (event.data) {
@@ -68,11 +65,25 @@ function Body() {
         );
         const casesJSON = await casesData.json();
         console.log(casesJSON);
+        let cases = [];
 
-        setCases(casesJSON.cases);
-        addCasesToChat(casesJSON.cases);
+        const dupe = (c2) => {
+          for (let i = 0; i < cases.length; i++) {
+            if (cases[i].reference === c2.reference) {
+              return true;
+            }
+          }
+          return false;
+        };
+        casesJSON.cases.forEach((c) => {
+          if (!dupe(c)) {
+            cases.push(c);
+          }
+        });
+        setCases(cases);
+        // addCasesToChat(casesJSON.cases);
       } catch (e) {
-        console.log("http://localhost:4000/cases has no cases");
+        console.log("http://localhost:4000/cases has no cases", e);
       }
     }
     window.addEventListener("message", messageListener);
@@ -82,7 +93,7 @@ function Body() {
     }
 
     return () => window.removeEventListener("message", messageListener);
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [data]);
   return (
     <main className="body">
