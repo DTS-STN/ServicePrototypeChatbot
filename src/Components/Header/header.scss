@@ -1,19 +1,33 @@
 @import "../../styles/base/color.scss";
 
 .header {
-  background-color: $color-blue;
-  padding: 12px;
+  background-color: $color-grey;
+  padding-left: 12px;
+  padding-right: 0;
   display: flex;
   align-items: center;
+
+  &__close {
+    margin-left: auto;
+    align-self: flex-start;
+    border: none;
+    background-color: transparent;
+    color: $color-white;
+    font-size: 25px;
+    width: 60px;
+    height: 60px;
+  }
+
   svg {
     height: 53px;
   }
 
   h1 {
-    margin-left: 15px;
+    // margin-left: 15px;
     margin-block-start: 0;
     margin-block-end: 0;
     color: $color-white;
     font-size: 48px;
+    padding: 15px;
   }
 }
