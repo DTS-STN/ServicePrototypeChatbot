@@ -29,8 +29,8 @@ function Body() {
   };
 
   const checkExpectedAnswers = (givenAnswer) => {
-    const hasAnswer = questionTriggerText.find((triggerText) =>
-      givenAnswer.includes(triggerText.answer)
+    const hasAnswer = questionTriggerText.find(
+      (triggerText) => givenAnswer === triggerText.answer
     );
     if (hasAnswer) return hasAnswer;
     return false;
@@ -60,6 +60,8 @@ function Body() {
           user: false,
           text: "I didn't recognize that answer",
         });
+        setMessages([...currentMessages]);
+        addQuestionsToChat(questions, questionNumber - 1);
       }
     } else {
       if (text.includes("cases")) {
