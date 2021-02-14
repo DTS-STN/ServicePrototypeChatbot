@@ -291,6 +291,12 @@ function Body() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [cases, benefits, checkEligible]);
 
+  const AlwaysScrollToBottom = () => {
+    const elementRef = React.useRef();
+    React.useEffect(() => elementRef.current.scrollIntoView());
+    return <div ref={elementRef} />;
+  };
+
   return (
     <main className="body">
       <div className="body__textContainer">
@@ -320,6 +326,7 @@ function Body() {
                   </div>
                 )
               )}
+              <AlwaysScrollToBottom />
             </>
           )}
         </div>

@@ -6,7 +6,7 @@ function Header({ close }) {
   return (
     <header className="header">
       <Chat />
-      <h1>Live Chat</h1>
+      <h1>Self Service</h1>
       <button className="header__close" onClick={close}>
         X
       </button>
