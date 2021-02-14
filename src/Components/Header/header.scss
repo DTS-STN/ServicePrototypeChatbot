@@ -2,14 +2,13 @@
 
 .header {
   background-color: $color-grey;
-  padding-left: 12px;
   padding-right: 0;
   display: flex;
   align-items: center;
 
   &__close {
     margin-left: auto;
-    align-self: flex-start;
+    align-self: center;
     border: none;
     background-color: transparent;
     color: $color-white;
@@ -19,7 +18,9 @@
   }
 
   svg {
-    height: 53px;
+    height: 42px;
+    width: auto;
+    padding: 12px;
   }
 
   h1 {
@@ -27,7 +28,7 @@
     margin-block-start: 0;
     margin-block-end: 0;
     color: $color-white;
-    font-size: 48px;
+    // font-size: 48px;
     padding: 15px;
   }
 }

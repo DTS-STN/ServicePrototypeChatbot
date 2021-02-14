@@ -338,7 +338,7 @@ function Body() {
           onInput={onInput}
           className="body_inputContainer__input"
           id="message"
-          rows={4}
+          rows={2}
           value={text}
           maxLength={250}
           onKeyDown={onKeyDown}
