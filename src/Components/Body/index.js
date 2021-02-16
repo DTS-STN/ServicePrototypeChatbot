@@ -1,5 +1,5 @@
 import React from "react";
-import { ReactComponent as Arrow } from "../../assets/images/email.svg";
+// import { ReactComponent as Arrow } from "../../assets/images/email.svg";
 import "./body.scss";
 
 function Body({ close }) {
