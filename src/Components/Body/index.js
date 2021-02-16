@@ -16,17 +16,17 @@ function Body({ close }) {
   const [questionsActive, setQuestionsActive] = React.useState(false);
   const [answers, setAnswers] = React.useState({});
 
-  const onInput = (e) => {
-    setText(e.target.value);
-  };
+  // const onInput = (e) => {
+  //   setText(e.target.value);
+  // };
 
-  const onKeyDown = (e) => {
-    if (e.code === "Enter" && !e.shiftKey) {
-      e.preventDefault();
+  // const onKeyDown = (e) => {
+  //   if (e.code === "Enter" && !e.shiftKey) {
+  //     e.preventDefault();
 
-      send();
-    }
-  };
+  //     send();
+  //   }
+  // };
 
   const checkExpectedAnswers = (givenAnswer) => {
     const hasAnswer = questionTriggerText.find(
