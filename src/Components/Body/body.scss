@@ -13,6 +13,21 @@
     margin-bottom: 10px;
     overflow: hidden;
 
+    .message {
+      background-color: $color-light-blue;
+      padding: 5px 10px;
+      border-radius: 30px;
+      border-top-left-radius: 0;
+      width: auto;
+      display: inline-block;
+
+      &.user {
+        background-color: $color-yellow;
+        border-radius: 30px;
+        border-top-right-radius: 0;
+      }
+    }
+
     p {
       margin-block-start: 0;
       margin-block-end: 5px;
@@ -23,6 +38,27 @@
       width: 100%;
       height: 100%;
       overflow-y: scroll;
+      justify-content: center;
+
+      &__answers {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        align-items: center;
+
+        button {
+          max-width: 40%;
+          min-width: 20%;
+        }
+      }
+    }
+
+    button {
+      background-color: $color-white;
+      padding: 5px 10px;
+      border-color: $color-blue;
+      border-radius: 40px;
+      margin: 5px;
     }
   }
   &__inputContainer {

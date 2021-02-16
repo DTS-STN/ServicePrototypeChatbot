@@ -2,7 +2,7 @@ import React from "react";
 import { ReactComponent as Arrow } from "../../assets/images/email.svg";
 import "./body.scss";
 
-function Body() {
+function Body({ close }) {
   const [text, setText] = React.useState("");
   const [messages, setMessages] = React.useState([]);
   const [data, setData] = React.useState(undefined);
@@ -30,23 +30,18 @@ function Body() {
 
   const checkExpectedAnswers = (givenAnswer) => {
     const hasAnswer = questionTriggerText.find(
-      (triggerText) => givenAnswer === triggerText.answer
+      (triggerText) => givenAnswer === triggerText.value
     );
     if (hasAnswer) return hasAnswer;
     return false;
   };
 
   const send = () => {
-    let currentMessages = messages;
-
+    let currentMessages = [];
     const uniq = new Date().getTime();
 
-    const messageText = <p key={uniq}>{text}</p>;
-
-    currentMessages.push({ user: true, text: messageText });
     if (questionsActive) {
       setText("");
-      setMessages([...currentMessages]);
       const expectedAnswer = checkExpectedAnswers(text);
 
       if (expectedAnswer) {
@@ -54,63 +49,94 @@ function Body() {
           ...answers,
           [expectedAnswer.questionId]: expectedAnswer.value,
         });
+
+        console.log(expectedAnswer);
+        const messageText = (
+          <p className="user message" key={uniq}>
+            {expectedAnswer.text}
+          </p>
+        );
+        currentMessages.push({ user: true, text: messageText });
+        setMessages((prevMessages) => [...prevMessages, ...currentMessages]);
+
         addQuestionsToChat(questions, questionNumber);
       } else {
         currentMessages.push({
           user: false,
-          text: "I didn't recognize that answer",
+          text: <p className="message">"I didn't recognize that answer"</p>,
         });
-        setMessages([...currentMessages]);
+        setMessages((prevMessages) => [...prevMessages, ...currentMessages]);
         addQuestionsToChat(questions, questionNumber - 1);
       }
     } else {
       if (text.includes("cases")) {
+        const messageText = (
+          <p className="user message" key={uniq}>
+            I would like to see the status of my cases please.
+          </p>
+        );
+        currentMessages.push({ user: true, text: messageText });
         window.top.postMessage("ready", "*");
         setCases(true);
+        setMessages((prevMessages) => [...prevMessages, ...currentMessages]);
       } else if (text.includes("benefits") || text.includes("benefit")) {
         setBenefits(true);
         window.top.postMessage("ready", "*");
+        setMessages((prevMessages) => [...prevMessages, ...currentMessages]);
       } else if (text === "clear") {
         currentMessages = [];
+        setMessages([]);
       }
       setText("");
-      setMessages([...currentMessages]);
     }
   };
 
   const addCasesToChat = (chatCases) => {
-    const currentMessages = [...messages];
+    const currentMessages = [];
 
     if (chatCases.length > 0) {
       chatCases.forEach((c, index) => {
         currentMessages.push({
           user: false,
-          text: `#${c.reference} ${c.status}`,
+          text: (
+            <p className="message">
+              {`Your `}
+              <span style={{ fontWeight: "bold" }}>{c.type}</span>
+              {` application is still `}
+              <span style={{ fontWeight: "bold" }}>{c.status}</span>
+              {` by one of our processing agents. In case you are interested in following up, the `}
+              <span
+                style={{ fontWeight: "bold" }}
+              >{`case reference number is ${c.reference}`}</span>
+            </p>
+          ),
         });
       });
-      setMessages(currentMessages);
-      // setCases(cases);
+      setMessages((prevMessages) => [...prevMessages, ...currentMessages]);
     } else {
       currentMessages.push({
         user: false,
-        text: "No Cases found",
+        text: <p className="message">No Cases found</p>,
       });
-      setMessages(currentMessages);
+      setMessages((prevMessages) => [...prevMessages, ...currentMessages]);
     }
 
     setCases(false);
+    sendFollowUp();
   };
 
   const addQuestionsToChat = (chatQuestions, number = 0) => {
-    const currentMessages = [...messages];
+    const currentMessages = [];
     if (chatQuestions.length > number) {
-      currentMessages.push({
+      if (number === 0) {
+              currentMessages.push({
         user: false,
-        text: chatQuestions[number].text,
+        text: <p className="message">Ok great! Let's start by getting to you know a bit.</p>,
       });
+      }
       currentMessages.push({
         user: false,
-        text: <div />,
+        text: <p className="message">{chatQuestions[number].text}</p>,
       });
 
       const answers = [];
@@ -120,23 +146,28 @@ function Body() {
           answer: `${j}`,
           value: chatQuestions[number].answers[j].id,
           questionId: chatQuestions[number].value,
+          text: chatQuestions[number].answers[j].text,
         });
         answers.push(
-          <span>{` [ ${j} ] ${chatQuestions[number].answers[j].text} `}</span>
+          <button
+            onClick={() => {
+              setText(chatQuestions[number].answers[j].id);
+            }}
+          >{`${chatQuestions[number].answers[j].text} `}</button>
         );
       }
 
       currentMessages.push({
         user: false,
         text: (
-          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr" }}>
+          <div className="body__textContainer__messages__answers">
             {answers.map((answer) => answer)}
           </div>
         ),
       });
       setQuestionTriggerText(triggerText);
       setQuestionNumber(number + 1);
-      setMessages(currentMessages);
+      setMessages((prevMessages) => [...prevMessages, ...currentMessages]);
 
       if (number === 0) {
         setBenefits(false);
@@ -145,47 +176,49 @@ function Body() {
     } else if (chatQuestions.length === number) {
       currentMessages.push({
         user: false,
-        text: "Checking benefits",
+        text: <p className="message">Checking benefits</p>,
       });
-      setMessages(currentMessages);
+      setMessages((prevMessages) => [...prevMessages, ...currentMessages]);
       setQuestionsActive(false);
       setCheckEligible(true);
     } else {
       currentMessages.push({
         user: false,
-        text: "No eligible benefits found",
+        text: <p className="message">No eligible benefits found</p>,
       });
-      setMessages(currentMessages);
+      setMessages((prevMessages) => [...prevMessages, ...currentMessages]);
     }
   };
 
   const addBenefitsToChat = (chatBenefits) => {
-    const currentMessages = [...messages];
+    const currentMessages = [];
 
-    if (chatBenefits.length > 0) {
+    if (chatBenefits && chatBenefits.length > 0) {
       currentMessages.push({
         user: false,
-        text: "You qualify for:",
+        text: <p className="message">You qualify for:</p>,
       });
       chatBenefits.forEach((c) => {
         const hasBenefit = benefitsList.find((benefit) => benefit.id === c);
         if (hasBenefit) {
           currentMessages.push({
             user: false,
-            text: hasBenefit.title,
+            text: <p className="message">{hasBenefit.title}</p>,
           });
         }
       });
 
-      setMessages(currentMessages);
+      setMessages((prevMessages) => [...prevMessages, ...currentMessages]);
       // setCases(cases);
     } else {
       currentMessages.push({
         user: false,
-        text: "No Cases found",
+        text: <p className="message">No eligible benefits found</p>,
       });
-      setMessages(currentMessages);
+      setMessages((prevMessages) => [...prevMessages, ...currentMessages]);
     }
+
+    sendFollowUp();
   };
 
   const messageListener = (event) => {
@@ -232,6 +265,7 @@ function Body() {
           addCasesToChat(casesJSON.cases);
         } catch (e) {
           console.log("Case error", e);
+          addCasesToChat([]);
         }
       } else if (benefits) {
         try {
@@ -287,9 +321,13 @@ function Body() {
       window.top.postMessage("ready", "*");
     }
 
+    if (text !== "") {
+      send();
+    }
+
     return () => window.removeEventListener("message", messageListener);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [cases, benefits, checkEligible]);
+  }, [cases, benefits, checkEligible, text]);
 
   const AlwaysScrollToBottom = () => {
     const elementRef = React.useRef();
@@ -297,41 +335,104 @@ function Body() {
     return <div ref={elementRef} />;
   };
 
+  const sendFollowUp = () => {
+    const currentMessages = [];
+
+    const followUp = (
+      <>
+        <p className="message">Is there anything else I can help you with?</p>
+        <p>
+          <button
+            onClick={() => {
+              setText("clear");
+            }}
+          >
+            Yes, please!
+          </button>{" "}
+          <button
+            onClick={() => {
+              close();
+            }}
+          >
+            No, that's all for now
+          </button>
+        </p>
+      </>
+    );
+
+    currentMessages.push({
+      user: false,
+      text: followUp,
+    });
+
+    setMessages((prevMessages) => [...prevMessages, ...currentMessages]);
+  };
+
   return (
     <main className="body">
       <div className="body__textContainer">
         {messages.length === 0 && (
-          <>
-            <p>Welcome to Self Service</p>
-            <p>
-              Ask about what{" "}
-              <span style={{ fontStyle: "italic" }}>benefits</span> you're
-              eligible for or information on your{" "}
-              <span style={{ fontStyle: "italic" }}>cases</span>
-            </p>
-          </>
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              justifyContent: "space-between",
+              height: "100%",
+            }}
+          >
+            <div>
+              <p className="message">Hello! How can I help today?</p>
+            </div>
+            <div
+              style={{
+                display: "flex",
+                flexDirection: "column",
+                justifyContent: "center",
+              }}
+            >
+              <button
+                style={{
+                  margin: "auto",
+                }}
+                onClick={() => {
+                  setText("Tell me about my cases");
+                }}
+              >
+                Tell me about my cases
+              </button>
+              <button
+                style={{
+                  margin: "auto",
+                  marginTop: "5px",
+                }}
+                onClick={() => {
+                  setText("Help me learn what benefits I am eligible for");
+                }}
+              >
+                Help me learn what benefits I am eligible for
+              </button>
+            </div>
+          </div>
         )}
-        <div className="body__textContainer__messages">
-          {messages.length > 0 && (
-            <>
-              {messages.map((message, index) =>
-                !message.user ? (
-                  <div key={`${index}${index}`}>{message.text}</div>
-                ) : (
-                  <div
-                    style={{ textAlign: "right", color: "#2b4380" }}
-                    key={`${index}${index}`}
-                  >
-                    {message.text}
-                  </div>
-                )
-              )}
-              <AlwaysScrollToBottom />
-            </>
-          )}
-        </div>
+        {messages.length > 0 && (
+          <div className="body__textContainer__messages">
+            {messages.map((message, index) =>
+              !message.user ? (
+                <div key={`${index}${index}`}>{message.text}</div>
+              ) : (
+                <div
+                  style={{ textAlign: "right", color: "#2b4380" }}
+                  key={`${index}${index}`}
+                >
+                  {message.text}
+                </div>
+              )
+            )}
+            <AlwaysScrollToBottom />
+          </div>
+        )}
       </div>
-      <div className="body__inputContainer">
+      {/* <div className="body__inputContainer">
         <textarea
           type="textarea"
           placeholder="Type your message..."
@@ -346,7 +447,7 @@ function Body() {
         <button className="body__inputContainer__arrow" onClick={send}>
           <Arrow />
         </button>
-      </div>
+      </div> */}
     </main>
   );
 }

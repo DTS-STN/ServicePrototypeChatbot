@@ -15,7 +15,7 @@ function App() {
       {active ? (
         <>
           <Header close={buttonClick}/>
-          <Body />
+          <Body close={buttonClick} />
         </>
       ) : (
         <button onClick={buttonClick}>
