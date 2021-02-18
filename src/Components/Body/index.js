@@ -15,6 +15,7 @@ function Body({ close }) {
   const [questionTriggerText, setQuestionTriggerText] = React.useState([]);
   const [questionsActive, setQuestionsActive] = React.useState(false);
   const [answers, setAnswers] = React.useState({});
+  const [topOrigin, setTopOrigin] = React.useState(undefined);
 
   // const onInput = (e) => {
   //   setText(e.target.value);
@@ -50,7 +51,6 @@ function Body({ close }) {
           [expectedAnswer.questionId]: expectedAnswer.value,
         });
 
-        console.log(expectedAnswer);
         const messageText = (
           <p className="user message" key={uniq}>
             {expectedAnswer.text}
@@ -129,10 +129,14 @@ function Body({ close }) {
     const currentMessages = [];
     if (chatQuestions.length > number) {
       if (number === 0) {
-              currentMessages.push({
-        user: false,
-        text: <p className="message">Ok great! Let's start by getting to you know a bit.</p>,
-      });
+        currentMessages.push({
+          user: false,
+          text: (
+            <p className="message">
+              Ok great! Let's start by getting to you know a bit.
+            </p>
+          ),
+        });
       }
       currentMessages.push({
         user: false,
@@ -203,7 +207,15 @@ function Body({ close }) {
         if (hasBenefit) {
           currentMessages.push({
             user: false,
-            text: <p className="message">{hasBenefit.title}</p>,
+            text: (
+              <a
+                target="_top"
+                href={`${topOrigin}/benefit/${c}`}
+                className="message"
+              >
+                {hasBenefit.title}
+              </a>
+            ),
           });
         }
       });
@@ -224,6 +236,7 @@ function Body({ close }) {
   const messageListener = (event) => {
     if (event.data) {
       if (event.data.guid && event.data.jwt) {
+        setTopOrigin(event.origin);
         setData(event.data);
       }
     }
