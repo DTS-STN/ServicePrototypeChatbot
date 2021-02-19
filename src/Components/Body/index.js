@@ -259,6 +259,7 @@ function Body({ close }) {
             }
           );
           const casesJSON = await casesData.json();
+
           let cases = [];
 
           const dupe = (c2) => {
@@ -277,7 +278,7 @@ function Body({ close }) {
           // setCases(cases);
           addCasesToChat(casesJSON.cases);
         } catch (e) {
-          console.log("Case error", e);
+          console.log("Case error ", e);
           addCasesToChat([]);
         }
       } else if (benefits) {
