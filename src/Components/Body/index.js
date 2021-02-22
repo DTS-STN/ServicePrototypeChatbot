@@ -247,7 +247,7 @@ function Body({ close }) {
       if (cases) {
         try {
           const casesData = await fetch(
-            "https://api.us-east.apiconnect.appdomain.cloud/hmakhijadeloitteca-api/dev/hfp-client-apis/v1/casedetails",
+            "https://api.us-east.apiconnect.appdomain.cloud/hmakhijadeloitteca-api/test/hfp-client-apis/v1/casedetails",
             {
               method: "get",
               headers: {
