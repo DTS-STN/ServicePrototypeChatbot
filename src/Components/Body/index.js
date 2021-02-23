@@ -234,9 +234,9 @@ function Body({ close }) {
   };
 
   const messageListener = (event) => {
-    setTopOrigin(event.origin);
-
     if (event.data) {
+      setTopOrigin(event.origin);
+
       if (event.data.guid && event.data.jwt) {
         setData(event.data);
       }
