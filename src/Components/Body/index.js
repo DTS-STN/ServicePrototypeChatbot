@@ -234,9 +234,10 @@ function Body({ close }) {
   };
 
   const messageListener = (event) => {
+    setTopOrigin(event.origin);
+
     if (event.data) {
       if (event.data.guid && event.data.jwt) {
-        setTopOrigin(event.origin);
         setData(event.data);
       }
     }
@@ -329,7 +330,7 @@ function Body({ close }) {
 
     window.addEventListener("message", messageListener);
 
-    if (data) {
+    if (data || ((benefits || checkEligible) && !cases)) {
       fetchData();
     } else {
       window.top.postMessage("ready", "*");
@@ -382,6 +383,8 @@ function Body({ close }) {
     setMessages((prevMessages) => [...prevMessages, ...currentMessages]);
   };
 
+  console.log(data);
+
   return (
     <main className="body">
       <div className="body__textContainer">
@@ -404,16 +407,18 @@ function Body({ close }) {
                 justifyContent: "center",
               }}
             >
-              <button
-                style={{
-                  margin: "auto",
-                }}
-                onClick={() => {
-                  setText("Tell me about my cases");
-                }}
-              >
-                Tell me about my cases
-              </button>
+              {data && (
+                <button
+                  style={{
+                    margin: "auto",
+                  }}
+                  onClick={() => {
+                    setText("Tell me about my cases");
+                  }}
+                >
+                  Tell me about my cases
+                </button>
+              )}
               <button
                 style={{
                   margin: "auto",
