@@ -309,6 +309,7 @@ function Body({ close }) {
         }
       } else if (checkEligible) {
         try {
+          window.top.postMessage({ type: "benefits", value: answers }, "*");
           const response = await fetch(
             "https://benefit-service-dev.dev.dts-stn.com/benefits/eligible",
             {
@@ -382,8 +383,6 @@ function Body({ close }) {
 
     setMessages((prevMessages) => [...prevMessages, ...currentMessages]);
   };
-
-  console.log(data);
 
   return (
     <main className="body">
