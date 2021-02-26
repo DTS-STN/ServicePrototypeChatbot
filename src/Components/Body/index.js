@@ -1,5 +1,4 @@
 import React from "react";
-// import { ReactComponent as Arrow } from "../../assets/images/email.svg";
 import "./body.scss";
 
 function Body({ close }) {
@@ -16,18 +15,6 @@ function Body({ close }) {
   const [questionsActive, setQuestionsActive] = React.useState(false);
   const [answers, setAnswers] = React.useState({});
   const [topOrigin, setTopOrigin] = React.useState(undefined);
-
-  // const onInput = (e) => {
-  //   setText(e.target.value);
-  // };
-
-  // const onKeyDown = (e) => {
-  //   if (e.code === "Enter" && !e.shiftKey) {
-  //     e.preventDefault();
-
-  //     send();
-  //   }
-  // };
 
   const checkExpectedAnswers = (givenAnswer) => {
     const hasAnswer = questionTriggerText.find(
@@ -221,7 +208,6 @@ function Body({ close }) {
       });
 
       setMessages((prevMessages) => [...prevMessages, ...currentMessages]);
-      // setCases(cases);
     } else {
       currentMessages.push({
         user: false,
@@ -276,7 +262,6 @@ function Body({ close }) {
               cases.push(c);
             }
           });
-          // setCases(cases);
           addCasesToChat(casesJSON.cases);
         } catch (e) {
           console.log("Case error ", e);
@@ -450,22 +435,6 @@ function Body({ close }) {
           </div>
         )}
       </div>
-      {/* <div className="body__inputContainer">
-        <textarea
-          type="textarea"
-          placeholder="Type your message..."
-          onInput={onInput}
-          className="body_inputContainer__input"
-          id="message"
-          rows={2}
-          value={text}
-          maxLength={250}
-          onKeyDown={onKeyDown}
-        />
-        <button className="body__inputContainer__arrow" onClick={send}>
-          <Arrow />
-        </button>
-      </div> */}
     </main>
   );
 }
